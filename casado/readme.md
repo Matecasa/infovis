@@ -1,1 +1,15 @@
-aca voy a poner las cosas de floursih
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>JS Bin</title>
+</head>
+<body>
+  <div class="flourish-embed flourish-hierarchy" data-src="visualisation/24633079">
+  <script src="https://public.flourish.studio/resources/embed.js"></script>
+  <noscript>
+    <img src="https://public.flourish.studio/visualisation/24633079/thumbnail" width="100%" alt="hierarchy visualization" />
+  </noscript></div>
+</body>
+</html>
