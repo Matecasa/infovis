@@ -136,9 +136,11 @@
       border-radius: calc(var(--radius) - 4px); overflow:hidden;
       background: var(--surface); border:1px solid var(--border);
     }
-    .embed > iframe,
     .embed > .flourish-embed,
-    .embed > .svgbox{ position:absolute; inset:0; width:100% !important; height:100% !important; border:0; }
+    .embed > .svgbox{ position:absolute; inset:0; width:100%; height:100%; border:0; }
+    /* Para iframes (Datawrapper) dejamos que controlen su propia altura */
+    .embed--auto{ padding-top: 0; }
+    .embed--auto iframe{ position: relative; display:block; width:100%; height:200px; border:0; }
     .svgbox svg{ width:100%; height:100%; display:block; }
 
     /* ====== Footer ====== */
@@ -211,8 +213,8 @@
         <p class="card__desc">Ranking mensual de gastos totales. Ordenado de mayor a menor.</p>
       </div>
       <div class="card__body">
-        <div class="embed" aria-label="Gráfico de barras: gasto total por mes">
-          <iframe title="" aria-label="Bar Chart" id="datawrapper-chart-ideqf" src="https://datawrapper.dwcdn.net/ideqf/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="101" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",function(a){if(void 0!==a.data["datawrapper-height"]){var e=document.querySelectorAll("iframe");for(var t in a.data["datawrapper-height"])for(var r,i=0;r=e[i];i++)if(r.contentWindow===a.source){var d=a.data["datawrapper-height"][t]+"px";r.style.height=d}}})}();
+        <div class="embed embed--auto" aria-label="Gráfico de barras: gasto total por mes">
+          <iframe title="" aria-label="Bar Chart" id="datawrapper-chart-ideqf" title="Gasto total por mes (Datawrapper)" src="https://datawrapper.dwcdn.net/ideqf/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="101" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",function(a){if(void 0!==a.data["datawrapper-height"]){var e=document.querySelectorAll("iframe");for(var t in a.data["datawrapper-height"])for(var r,i=0;r=e[i];i++)if(r.contentWindow===a.source){var d=a.data["datawrapper-height"][t]+"px";r.style.height=d}}})}();
 </script>
         </div>
       </div>
