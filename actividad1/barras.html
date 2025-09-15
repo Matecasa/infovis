@@ -7,20 +7,8 @@
 
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
   <style>
-    /* ====== Tema (oscuro por defecto) ====== */
+    /* ====== Tema claro ====== */
     :root{
-      --bg: #0b0c10;
-      --surface: #0f1117;
-      --surface-2:#151a21;
-      --text: #f2f6fb;          /* <-- alto contraste */
-      --muted: #b7c2cf;
-      --brand:#58a6ff;
-      --border: rgba(255,255,255,.10);
-      --shadow: 0 14px 36px rgba(0,0,0,.35);
-      --radius: 18px;
-      --scale: 1;               /* factor de tamaño de texto (control deslizante) */
-    }
-    .light{
       --bg:#f7f8fa;
       --surface:#ffffff;
       --surface-2:#ffffff;
@@ -29,6 +17,8 @@
       --brand:#0d6efd;
       --border:rgba(0,0,0,.08);
       --shadow:0 10px 24px rgba(0,0,0,.10);
+      --radius:18px;
+      --scale:1;
     }
 
     *{box-sizing:border-box}
@@ -36,7 +26,7 @@
     body{
       margin:0;
       font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,Helvetica,sans-serif;
-      background:linear-gradient(180deg,var(--bg),#0f1117);
+      background:var(--bg);
       color:var(--text);
       -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
     }
@@ -45,10 +35,8 @@
     .hero{
       padding: clamp(28px, 4vw, 56px) 24px 10px;
       text-align:center;
-      color:var(--text);
       background:
-        radial-gradient(900px 380px at 50% -220px, rgba(88,166,255,.25), transparent),
-        radial-gradient(700px 260px at 90% -140px, rgba(255,255,255,.08), transparent);
+        radial-gradient(900px 380px at 50% -220px, rgba(13,110,253,.15), transparent);
     }
     .title{
       margin:0 0 6px;
@@ -80,7 +68,7 @@
     }
     .chip label{color:var(--muted); font-weight:600; letter-spacing:.02em}
     .chip button{
-      background:var(--brand); color:#051018; border:0; border-radius:999px;
+      background:var(--brand); color:#fff; border:0; border-radius:999px;
       padding:8px 12px; font-weight:700; cursor:pointer;
     }
     .chip input[type="range"]{ accent-color:var(--brand); }
@@ -102,11 +90,11 @@
       border: 1px solid var(--border);
       transform: translateY(0); transition: transform .25s ease, box-shadow .25s ease;
     }
-    .card:hover{ transform: translateY(-3px); box-shadow: 0 18px 44px rgba(0,0,0,.35); }
+    .card:hover{ transform: translateY(-3px); box-shadow: 0 18px 44px rgba(0,0,0,.15); }
     .card__head{
       padding: 18px 20px 12px;
       border-bottom: 1px solid var(--border);
-      background: linear-gradient(180deg, rgba(255,255,255,.03), transparent);
+      background: linear-gradient(180deg, rgba(0,0,0,.02), transparent);
       color:var(--text);
     }
     .card__eyebrow{
@@ -120,7 +108,7 @@
     }
     .card__title{
       margin:0;
-      color:var(--text);                            /* <- fuerza contraste */
+      color:var(--text);
       font-size: calc(var(--scale) * clamp(18px, 2vw, 22px));
     }
     .card__desc{
@@ -128,7 +116,7 @@
       color: var(--muted);
       font-size: calc(var(--scale) * 14px);
       line-height:1.5;
-      display: var(--desc-display, block);          /* se oculta/mostrar desde JS */
+      display: var(--desc-display, block);
     }
     .card__body{ padding: 10px 12px 4px; }
 
@@ -152,7 +140,7 @@
     }
     .badge{
       display:inline-block; padding: 2px 10px; border-radius: 999px;
-      background: rgba(88,166,255,.12); color: var(--brand); font-size:12px; font-weight:700;
+      background: rgba(13,110,253,.12); color: var(--brand); font-size:12px; font-weight:700;
       letter-spacing:.02em;
     }
     a{ color: var(--brand); text-decoration: none; }
@@ -164,15 +152,11 @@
   <!-- Encabezado -->
   <header class="hero">
     <h1 class="title">Gastos personales · Junio—Agosto 2025</h1>
-    <p class="subtitle">Explorá los rubros y medios de pago, y compará el gasto total por mes. Podés cambiar el tema, el tamaño de texto y mostrar/ocultar descripciones.</p>
+    <p class="subtitle">Explorá los rubros y medios de pago, y compará el gasto total por mes.</p>
   </header>
 
-  <!-- Controles interactivos -->
+  <!-- Controles -->
   <div class="toolbar">
-    <div class="chip">
-      <label>Tema</label>
-      <button id="toggleTheme" aria-label="Cambiar tema">Oscuro / Claro</button>
-    </div>
     <div class="chip">
       <label>Tamaño del texto</label>
       <input id="fontScale" type="range" min="90" max="120" value="100" />
@@ -185,14 +169,13 @@
 
   <!-- Contenido -->
   <main class="wrap">
-
-    <!-- Card 1 · Flourish -->
+    <!-- Card 1 -->
     <section class="card">
       <div class="card__head">
         <span class="card__eyebrow">Exploración</span>
         <h2 class="card__title">¿En qué gasté y con qué medio de pago?</h2>
         <p class="card__desc">
-          Visualización jerárquica: Muestra el medio de págo mas utilizado con sus gastos dentro de ella
+          Visualización jerárquica: el primer anillo muestra los <em>tipos de gasto</em> y el segundo, el <em>medio de pago</em>.
         </p>
       </div>
       <div class="card__body">
@@ -202,39 +185,32 @@
       </div>
     </section>
 
-    <!-- Card 2 · Datawrapper -->
+    <!-- Card 2 -->
     <section class="card">
       <div class="card__head">
         <span class="card__eyebrow">Comparación</span>
         <h2 class="card__title">¿Cuál fue el mes con más gasto?</h2>
-        <p class="card__desc">
-          Ranking mensual de gastos totales. Ordenado de mayor a menor para una lectura inmediata.
-        </p>
+        <p class="card__desc">Ranking mensual de gastos totales. Ordenado de mayor a menor.</p>
       </div>
       <div class="card__body">
         <div class="embed" style="padding-top:48%" aria-label="Datawrapper bar chart">
-          <iframe
-            title="¿Cuál fue el mes que más gasté?"
-            id="datawrapper-chart-EAVCY"
-            src="https://datawrapper.dwcdn.net/EAVCY/1/"
-            scrolling="no" frameborder="0" data-external="1">
-          </iframe>
+          <iframe title="¿Cuál fue el mes que más gasté?" id="datawrapper-chart-EAVCY"
+            src="https://datawrapper.dwcdn.net/EAVCY/1/" scrolling="no" frameborder="0" data-external="1"></iframe>
         </div>
       </div>
     </section>
-
   </main>
 
   <!-- Footer -->
   <footer class="footer">
     <span class="badge">Interactivo</span>
-    <div>Hecho con <a href="https://flourish.studio" target="_blank" rel="noopener">Flourish</a> y <a href="https://www.datawrapper.de" target="_blank" rel="noopener">Datawrapper</a>. Tipografía Inter.</div>
+    <div>Hecho con <a href="https://flourish.studio" target="_blank" rel="noopener">Flourish</a> y <a href="https://www.datawrapper.de" target="_blank" rel="noopener">Datawrapper</a>.</div>
   </footer>
 
   <!-- Scripts -->
   <script src="https://public.flourish.studio/resources/embed.js" defer></script>
   <script>
-    // Ajuste de altura para iframes de Datawrapper (script oficial)
+    // Ajuste de altura Datawrapper
     window.addEventListener("message", function (event) {
       if (typeof event.data["datawrapper-height"] !== "undefined") {
         const iframes = document.querySelectorAll("iframe");
@@ -248,21 +224,13 @@
       }
     });
 
-    // ====== Interactividad de la UI ======
+    // Control tamaño texto
     const root = document.documentElement;
-
-    // Tema
-    const toggleBtn = document.getElementById('toggleTheme');
-    toggleBtn.addEventListener('click', () => {
-      document.body.classList.toggle('light');
+    document.getElementById('fontScale').addEventListener('input', e => {
+      root.style.setProperty('--scale', (e.target.value/100).toString());
     });
 
-    // Tamaño del texto (escala 0.9–1.2)
-    const scaleInput = document.getElementById('fontScale');
-    const applyScale = v => root.style.setProperty('--scale', (v/100).toString());
-    scaleInput.addEventListener('input', e => applyScale(e.target.value));
-
-    // Mostrar / Ocultar descripciones
+    // Mostrar/Ocultar descripciones
     const toggleDesc = document.getElementById('toggleDesc');
     let descVisible = true;
     toggleDesc.addEventListener('click', () => {
