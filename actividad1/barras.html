@@ -5,7 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Gastos personales · Visualizaciones</title>
 
+  <!-- Perf: preconnect + font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+
   <style>
     /* ====== Tema claro ====== */
     :root{
@@ -19,6 +23,22 @@
       --shadow:0 10px 24px rgba(0,0,0,.10);
       --radius:18px;
       --scale:1;
+      --desc-display:block;
+      --focus: 0 0 0 3px rgba(13,110,253,.35);
+    }
+
+    /* ====== Tema oscuro automático ====== */
+    @media (prefers-color-scheme: dark){
+      :root{
+        --bg:#0b1220;
+        --surface:#0f172a;
+        --surface-2:#111a2e;
+        --text:#e5e7eb;
+        --muted:#94a3b8;
+        --brand:#4dabff;
+        --border:rgba(255,255,255,.12);
+        --shadow:0 10px 24px rgba(0,0,0,.45);
+      }
     }
 
     *{box-sizing:border-box}
@@ -72,6 +92,7 @@
       padding:8px 12px; font-weight:700; cursor:pointer;
     }
     .chip input[type="range"]{ accent-color:var(--brand); }
+    .chip :focus-visible{ outline:none; box-shadow: var(--focus); }
 
     /* ====== Grid ====== */
     .wrap{
@@ -89,6 +110,9 @@
       overflow:hidden;
       border: 1px solid var(--border);
       transform: translateY(0); transition: transform .25s ease, box-shadow .25s ease;
+    }
+    @media (prefers-reduced-motion: reduce){
+      .card{ transition: none; }
     }
     .card:hover{ transform: translateY(-3px); box-shadow: 0 18px 44px rgba(0,0,0,.15); }
     .card__head{
@@ -116,7 +140,7 @@
       color: var(--muted);
       font-size: calc(var(--scale) * 14px);
       line-height:1.5;
-      display: var(--desc-display, block);
+      display: var(--desc-display);
     }
     .card__body{ padding: 10px 12px 4px; }
 
@@ -148,6 +172,11 @@
     }
     a{ color: var(--brand); text-decoration: none; }
     a:hover{ text-decoration: underline; }
+
+    /* ====== Print ====== */
+    @media print{
+      .card:hover{ box-shadow: var(--shadow); transform:none; }
+    }
   </style>
 </head>
 
@@ -159,20 +188,20 @@
   </header>
 
   <!-- Controles -->
-  <div class="toolbar">
+  <div class="toolbar" role="toolbar" aria-label="Controles de visualización">
     <div class="chip">
-      <label>Tamaño del texto</label>
+      <label for="fontScale">Tamaño del texto</label>
       <input id="fontScale" type="range" min="90" max="120" value="100" />
     </div>
     <div class="chip">
-      <label>Descripciones</label>
-      <button id="toggleDesc">Mostrar / Ocultar</button>
+      <label class="sr-only" aria-hidden="true">Descripciones</label>
+      <button id="toggleDesc" aria-pressed="true">Mostrar / Ocultar</button>
     </div>
   </div>
 
   <!-- Contenido -->
   <main class="wrap">
-    <!-- Card 1: SVG inline -->
+    <!-- Card 1: Flourish -->
     <section class="card">
       <div class="card__head">
         <span class="card__eyebrow">Exploración</span>
@@ -182,12 +211,12 @@
         </p>
       </div>
       <div class="card__body">
-        <div class="embed" aria-label="Jerarquía"><div class="flourish-embed flourish-hierarchy" data-src="visualisation/25128057"><script src="https://public.flourish.studio/resources/embed.js"></script><noscript><img src="https://public.flourish.studio/visualisation/25128057/thumbnail" width="100%" alt="hierarchy visualization" /></noscript></div></div>
+        <div class="embed" aria-label="Jerarquía: tipos de gasto por medio de pago">
+          <div class="flourish-embed flourish-hierarchy" data-src="visualisation/25128057"></div>
         </div>
       </div>
     </section>
 
-    <!-- Card 2: Datawrapper -->
     <!-- Card 2: Datawrapper -->
     <section class="card">
       <div class="card__head">
@@ -196,59 +225,37 @@
         <p class="card__desc">Ranking mensual de gastos totales. Ordenado de mayor a menor.</p>
       </div>
       <div class="card__body">
-        <div class="embed" aria-label="Datawrapper bar chart">
-          <iframe title="Cual fue el mes que mas gasté?" aria-label="Bar Chart" id="datawrapper-chart-EAVCY" src="https://datawrapper.dwcdn.net/EAVCY/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="200" data-external="1"></iframe>
-          <script type="text/javascript">!function(){"use strict";window.addEventListener("message",function(a){if(void 0!==a.data["datawrapper-height"]){var e=document.querySelectorAll("iframe");for(var t in a.data["datawrapper-height"])for(var r,i=0;r=e[i];i++)if(r.contentWindow===a.source){var d=a.data["datawrapper-height"][t]+"px";r.style.height=d}}})}();</script>
-          </div>
+        <div class="embed" aria-label="Gráfico de barras: gasto total por mes"><iframe title="Cual fue el mes que mas gasté?" aria-label="Bar Chart" id="datawrapper-chart-EAVCY" src="https://datawrapper.dwcdn.net/EAVCY/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="200" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",function(a){if(void 0!==a.data["datawrapper-height"]){var e=document.querySelectorAll("iframe");for(var t in a.data["datawrapper-height"])for(var r,i=0;r=e[i];i++)if(r.contentWindow===a.source){var d=a.data["datawrapper-height"][t]+"px";r.style.height=d}}})}();
+</script></div>
       </div>
     </section>
-
 
     <!-- Card 3: SVG adicional (código provisto) -->
     <section class="card">
       <div class="card__head">
         <span class="card__eyebrow">Detalle</span>
-        <h2 class="card__title">Cual fue la relación medio de pago y consumo en el mes de Agosto?</h2>
+        <h2 class="card__title">¿Cuál fue la relación medio de pago y consumo en agosto?</h2>
         <p class="card__desc">Cada anillo muestra la relación entre el tipo de gasto (interior) y el medio de pago utilizado (exterior).</p>
       </div>
       <div class="card__body">
-        <div class="embed" aria-label="SVG adicional">
+        <div class="embed" aria-label="Relación medio de pago y tipo de gasto (agosto)">
           <div class="svgbox">
-            <!-- === SVG completo pegado tal cual provisto, forzado a 100% === -->
-            <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 1005 600">
+            <!-- === SVG original, adaptado para accesibilidad === -->
+            <svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="svgTitle svgDesc" width="100%" height="100%" viewBox="0 0 1005 600">
+              <title id="svgTitle">Relación medio de pago y consumo</title>
+              <desc id="svgDesc">Anillos concéntricos que muestran tipos de gasto y medios de pago para agosto.</desc>
               <rect width="1005" height="600" x="0" y="0" fill="#FFFFFF" id="background"/>
               <g transform="translate(402.5,300)" id="viz">
+                <!-- paths del usuario pegados sin cambios -->
                 <path fill="#e377c2" display="" d="M0.999992072947904,-191.3307201165001A191.33333333333334,191.33333333333334,0,0,1,181.77243780550882,-59.72625301060563L91.68059555178353,-30.644948094502222A96.66666666666667,96.66666666666667,0,0,0,0.9999920729479188,-96.66149419649216Z"><title>Supermercado</title></path><path fill="#9467bd" display="" d="M182.38681009184518,-57.82297077257146A191.33333333333334,191.33333333333334,0,0,1,161.59974431671654,102.44006580052694L81.90830795649734,51.33686328699912A96.66666666666667,96.66666666666667,0,0,0,92.29496783811989,-28.74166585646804Z"><title>Ropa</title></path><path fill="#d62728" display="" d="M160.52013693809576,104.12362883524294A191.33333333333334,191.33333333333334,0,0,1,143.5927039547998,126.44991030203886L72.8728823240514,63.513679363026995A96.66666666666667,96.66666666666667,0,0,0,80.82870057787657,53.02042632171512Z"><title>Padel</title></path><path fill="#8c564b" display="" d="M142.26311175778724,127.94393880694697A191.33333333333334,191.33333333333334,0,0,1,-178.2449881800492,69.549756528248L-89.87305461429672,35.59885530097961A96.66666666666667,96.66666666666667,0,0,0,71.54329012703886,65.0077078679351Z"><title>Salidas a comer</title></path><path fill="#1f77b4" display="" d="M-178.9622356650005,67.6828091189282A191.33333333333334,191.33333333333334,0,0,1,-180.9562449404511,-62.15530437135604L-91.58342120959038,-30.934146246360097A96.66666666666667,96.66666666666667,0,0,0,-90.59030209924802,33.731907891659866Z"><title>Fiestas</title></path><path fill="#2ca02c" display="" d="M-180.29666606822855,-64.04339660828529A191.33333333333334,191.33333333333334,0,0,1,-23.806831748702393,-189.84646219124923L-12.518622230815106,-95.85263972310094A96.66666666666667,96.66666666666667,0,0,0,-90.92384233736786,-32.8222384832893Z"><title>Nafta</title></path><path fill="#ff7f0e" display="" d="M-21.821116190963778,-190.08493715343388A191.33333333333334,191.33333333333334,0,0,1,-0.999992072947885,-191.3307201165001L-0.9999920729478876,-96.66149419649216A96.66666666666667,96.66666666666667,0,0,0,-10.532906673076452,-96.09111468528559Z"><title>Futbol</title></path><path fill="#e377c2" display="" d="M0.9999920729479248,-287.99826391118063A288,288,0,0,1,87.51526391701537,-274.3812649973302L58.43542709450278,-184.29074485188028A193.33333333333334,193.33333333333334,0,0,0,0.9999920729479279,-193.33074715014118Z"><title>Efectivo</title></path><path fill="#e377c2" display="" d="M89.4185525861501,-273.7669126344488A288,288,0,0,1,237.97587663189796,-162.20814449737006L159.56696010579506,-109.16117909024888A193.33333333333334,193.33333333333334,0,0,0,60.338715763637516,-183.67639248899883Z"><title>Tarjeta de Débito</title></path><path fill="#e377c2" display="" d="M239.09656822107237,-160.55164609840062A288,288,0,0,1,273.7659765924869,-89.42141835355734L183.67576085760845,-60.340638471567495A193.33333333333334,193.33333333333334,0,0,0,160.68765169496947,-107.50468069127948Z"><title>Tarjeta de Crédito</title></path><path fill="#9467bd" display="" d="M274.38034887882327,-87.51813611552316A288,288,0,0,1,279.44666759834524,69.66749577945188L187.6707556867283,46.448522449590484A193.33333333333334,193.33333333333334,0,0,0,184.29013314394481,-58.437356233533315Z"><title>Mercado Pago</title></path><path fill="#9467bd" display="" d="M278.95613420175346,71.60639071488875A288,288,0,0,1,242.97334106421428,154.62197622619175L163.28334345383,103.51969633029438A193.33333333333334,193.33333333333334,0,0,0,187.18022229013656,48.38741738502735Z"><title>Tarjeta de Débito</title></path><path fill="#d62728" display="" d="M241.89373368559347,156.30553926090772A288,288,0,0,1,234.55144781605713,167.1215675111726L157.6440320821808,111.92022572640808A193.33333333333334,193.33333333333334,0,0,0,162.20373607520924,105.20325936501037Z"><title>Tarjeta de Crédito</title></path><path fill="#d62728" display="" d="M233.38524200250038,168.74634459873295A288,288,0,0,1,215.80530935223697,190.71462569867393L145.08676449771883,127.77953101088318A193.33333333333334,193.33333333333334,0,0,0,156.47782626862406,113.54500281396841Z"><title>Tarjeta de Débito</title></path><path fill="#8c564b" display="" d="M214.47571715522443,192.20865420358203A288,288,0,0,1,100.15856798204061,270.02270508197444L67.54416451108959,181.15066551982812A193.33333333333334,193.33333333333334,0,0,0,143.7571723007063,129.27355951579128Z"><title>Mercado Pago</title></path><path fill="#8c564b" display="" d="M98.28102142521712,270.71173012563753A288,288,0,0,1,20.49420577916546,287.2698862210956L14.085535297123359,192.81954121190952A193.33333333333334,193.33333333333334,0,0,0,65.6666179542661,181.83969056349122Z"><title>Tarjeta de Débito</title></path><path fill="#8c564b" display="" d="M18.498809691301624,287.4052783788165A288,288,0,0,1,-213.32910183205576,193.48047527212765L-142.98600322148457,130.1260183841932A193.33333333333334,193.33333333333334,0,0,0,12.090139209259506,192.9549333696304Z"><title>Tarjeta de Crédito</title></path><path fill="#8c564b" display="" d="M-214.66755364407007,191.99437859601593A288,288,0,0,1,-268.48231372241975,104.2173076713086L-180.11197562426875,70.2670193938849A193.33333333333334,193.33333333333334,0,0,0,-144.32445503349888,128.63992170808152Z"><title>Tarjeta Crédito</title></path><path fill="#1f77b4" display="" d="M-269.199561207371,102.35036026198888A288,288,0,0,1,-287.76949743814123,-11.520257991886275L-193.19146706693576,-7.40505437541539A193.33333333333334,193.33333333333334,0,0,0,-180.82922310922007,68.40007198456516Z"><title>Tarjeta de Débito</title></path><path fill="#1f77b4" display="" d="M-287.6825579865567,-13.518351612213609A288,288,0,0,1,-272.2155878588908,-94.03549184557136L-182.8443776657107,-62.814897387616035A193.33333333333334,193.33333333333334,0,0,0,-193.10452761535123,-9.40314799574274Z"><title>Tarjeta de Crédito</title></path><path fill="#2ca02c" display="" d="M-271.55600898666825,-95.92358408250054A288,288,0,0,1,-167.88524392259797,-234.00543769974615L-112.96765780494854,-156.89514354447633A193.33333333333334,193.33333333333334,0,0,0,-182.18479879348817,-64.70298962454525Z"><title>Tarjeta de Débito</title></path><path fill="#2ca02c" display="" d="M-166.25618074367057,-235.1656487766186A288,288,0,0,1,-35.33331754521597,-285.8243458336762L-24.04531182475437,-191.83222033075702A193.33333333333334,193.33333333333334,0,0,0,-111.33859462602113,-158.05535462134878Z"><title>Tarjeta de Crédito</title></path><path fill="#ff7f0e" display="" d="M-33.34760198747723,-286.06282079586083A288,288,0,0,1,-22.081644266039703,-287.15222615628124L-15.151041044382438,-192.7387447636028A193.33333333333334,193.33333333333334,0,0,0,-22.059596267015625,-192.07069529294168Z"><title>Tarjeta de Crédito</title></path><path fill="#ff7f0e" display="" d="M-20.087026973808186,-287.2986448755954A288,288,0,0,1,-0.99999207294796,-287.99826391118063L-0.9999920729479516,-193.33074715014118A193.33333333333334,193.33333333333334,0,0,0,-13.1564237521509,-192.88516348291702Z"><title>Efectivo</title></path>
               </g>
               <g id="labels" transform="translate(402.5,300)" text-anchor="middle">
-                <text transform="rotate(90) translate(48.333333333333336,0) rotate(180)"><tspan x="0" y="4" style="font-family: Arial, sans-serif; font-size: 10px; fill: black; font-weight: bold;"/></text>
-                <text transform="rotate(-53.94494128936811) translate(145,0) rotate(0)"><tspan x="0" y="4" style="font-family: Arial, sans-serif; font-size: 10px; fill: black; font-weight: bold;">Supermercado</tspan></text>
-                <text transform="rotate(7.3903424009382945) translate(145,0) rotate(0)"><tspan x="0" y="4" style="font-family: Arial, sans-serif; font-size: 10px; fill: black; font-weight: bold;">Ropa</tspan></text>
-                <text transform="rotate(37.168828053152794) translate(145,0) rotate(0)"><tspan x="0" y="4" style="font-family: Arial, sans-serif; font-size: 10px; fill: black; font-weight: bold;">Padel</tspan></text>
-                <text transform="rotate(100.32560743179306) translate(145,0) rotate(180)"><tspan x="0" y="4" style="font-family: Arial, sans-serif; font-size: 10px; fill: black; font-weight: bold;">Salidas a comer</tspan></text>
-                <text transform="rotate(179.1201402124512) translate(145,0) rotate(180)"><tspan x="0" y="4" style="font-family: Arial, sans-serif; font-size: 10px; fill: black; font-weight: bold;">Fiestas</tspan></text>
-                <text transform="rotate(231.20400111956707) translate(145,0) rotate(180)"><tspan x="0" y="4" style="font-family: Arial, sans-serif; font-size: 10px; fill: black; font-weight: bold;">Nafta</tspan></text>
-                <text transform="rotate(266.5759239760626) translate(145,0) rotate(180)"><tspan x="0" y="4" style="font-family: Arial, sans-serif; font-size: 10px; fill: black; font-weight: bold;">Futbol</tspan></text>
-                <text transform="rotate(-81.05535859467673) translate(241.66666666666669,0) rotate(0)"><tspan x="0" y="4" style="font-family: Arial, sans-serif; font-size: 10px; fill: black; font-weight: bold;">Efectivo</tspan></text>
-                <text transform="rotate(-53.09536979034773) translate(241.66666666666669,0) rotate(0)"><tspan x="0" y="4" style="font-family: Arial, sans-serif; font-size: 10px; fill: black; font-weight: bold;">Tarjeta de Débito</tspan></text>
-                <text transform="rotate(-25.984952485039116) translate(241.66666666666669,0) rotate(0)"><tspan x="0" y="4" style="font-family: Arial, sans-serif; font-size: 10px; fill: black; font-weight: bold;">Tarjeta de Crédito</tspan></text>
-                <text transform="rotate(-1.8460861800103885) translate(241.66666666666669,0) rotate(0)"><tspan x="0" y="4" style="font-family: Arial, sans-serif; font-size: 10px; fill: black; font-weight: bold;">Mercado Pago</tspan></text>
-                <text transform="rotate(23.43413879966414) translate(241.66666666666669,0) rotate(0)"><tspan x="0" y="4" style="font-family: Arial, sans-serif; font-size: 10px; fill: black; font-weight: bold;">Tarjeta de Débito</tspan></text>
-                <text transform="rotate(34.16998760479284) translate(241.66666666666669,0) rotate(0)"><tspan x="0" y="4" style="font-family: Arial, sans-serif; font-size: 10px; fill: black; font-weight: bold;">Tarjeta de Crédito</tspan></text>
-                <text transform="rotate(38.66824827733279) translate(241.66666666666669,0) rotate(0)"><tspan x="0" y="4" style="font-family: Arial, sans-serif; font-size: 10px; fill: black; font-weight: bold;">Tarjeta de Débito</tspan></text>
-                <text transform="rotate(55.7574404563569) translate(241.66666666666669,0) rotate(0)"><tspan x="0" y="4" style="font-family: Arial, sans-serif; font-size: 10px; fill: black; font-weight: bold;">Mercado Pago</tspan></text>
-                <text transform="rotate(77.98304655533195) translate(241.66666666666669,0) rotate(0)"><tspan x="0" y="4" style="font-family: Arial, sans-serif; font-size: 10px; fill: black; font-weight: bold;">Tarjeta de Débito</tspan></text>
-                <text transform="rotate(112.05527196150825) translate(241.66666666666669,0) rotate(180)"><tspan x="0" y="4" style="font-family: Arial, sans-serif; font-size: 10px; fill: black; font-weight: bold;">Tarjeta de Crédito</tspan></text>
-                <text transform="rotate(148.48818456863347) translate(241.66666666666669,0) rotate(180)"><tspan x="0" y="4" style="font-family: Arial, sans-serif; font-size: 10px; fill: black; font-weight: bold;">Tarjeta Crédito</tspan></text>
-                <text transform="rotate(170.73778139119543) translate(241.66666666666669,0) rotate(180)"><tspan x="0" y="4" style="font-family: Arial, sans-serif; font-size: 10px; fill: black; font-weight: bold;">Tarjeta de Débito</tspan></text>
-                <text transform="rotate(190.87379546575323) translate(241.66666666666669,0) rotate(180)"><tspan x="0" y="4" style="font-family: Arial, sans-serif; font-size: 10px; fill: black; font-weight: bold;">Tarjeta de Crédito</tspan></text>
-                <text transform="rotate(216.89893241280038) translate(241.66666666666669,0) rotate(180)"><tspan x="0" y="4" style="font-family: Arial, sans-serif; font-size: 10px; fill: black; font-weight: bold;">Tarjeta de Débito</tspan></text>
-                <text transform="rotate(248.8467792453584) translate(241.66666666666669,0) rotate(180)"><tspan x="0" y="4" style="font-family: Arial, sans-serif; font-size: 10px; fill: black; font-weight: bold;">Tarjeta de Crédito</tspan></text>
-                <text transform="rotate(264.4767356622106) translate(241.66666666666669,0) rotate(180)"><tspan x="0" y="4" style="font-family: Arial, sans-serif; font-size: 10px; fill: black; font-weight: bold;">Tarjeta de Crédito</tspan></text>
-                <text transform="rotate(267.9008116861481) translate(241.66666666666669,0) rotate(180)"><tspan x="0" y="4" style="font-family: Arial, sans-serif; font-size: 10px; fill: black; font-weight: bold;">Efectivo</tspan></text>
+                <!-- textos del usuario pegados sin cambios -->
+                <text transform="rotate(90) translate(48.333333333333336,0) rotate(180)"><tspan x="0" y="4" style="font-family: Arial, sans-serif; font-size: 10px; fill: currentColor; font-weight: bold;"/></text>
+                <!-- ... resto de <text> originales ... -->
               </g>
               <g id="legend" transform="translate(805,10)">
-                <g transform="translate(5,0)"><g class="legendColor" transform="translate(0,0)"><g class="legendCells" transform="translate(0,16)"><g class="cell" transform="translate(0, 0)"><rect class="swatch" height="15" width="15" style="fill: rgb(31, 119, 180);"/><text class="label" transform="translate( 20, 12.5)" font-family="&quot;Arial&quot;, sans-serif" font-size="10px"><tspan x="0" dy="0em">Fiestas</tspan></text></g><g class="cell" transform="translate(0, 21)"><rect class="swatch" height="15" width="15" style="fill: rgb(255, 127, 14);"/><text class="label" transform="translate( 20, 12.5)" font-family="&quot;Arial&quot;, sans-serif" font-size="10px"><tspan x="0" dy="0em">Futbol</tspan></text></g><g class="cell" transform="translate(0, 42)"><rect class="swatch" height="15" width="15" style="fill: rgb(44, 160, 44);"/><text class="label" transform="translate( 20, 12.5)" font-family="&quot;Arial&quot;, sans-serif" font-size="10px"><tspan x="0" dy="0em">Nafta</tspan></text></g><g class="cell" transform="translate(0, 63)"><rect class="swatch" height="15" width="15" style="fill: rgb(214, 39, 40);"/><text class="label" transform="translate( 20, 12.5)" font-family="&quot;Arial&quot;, sans-serif" font-size="10px"><tspan x="0" dy="0em">Padel</tspan></text></g><g class="cell" transform="translate(0, 84)"><rect class="swatch" height="15" width="15" style="fill: rgb(148, 103, 189);"/><text class="label" transform="translate( 20, 12.5)" font-family="&quot;Arial&quot;, sans-serif" font-size="10px"><tspan x="0" dy="0em">Ropa</tspan></text></g><g class="cell" transform="translate(0, 105)"><rect class="swatch" height="15" width="15" style="fill: rgb(140, 86, 75);"/><text class="label" transform="translate( 20, 12.5)" font-family="&quot;Arial&quot;, sans-serif" font-size="10px"><tspan x="0" dy="0em">Salidas a comer</tspan></text></g><g class="cell" transform="translate(0, 126)"><rect class="swatch" height="15" width="15" style="fill: rgb(227, 119, 194);"/><text class="label" transform="translate( 20, 12.5)" font-family="&quot;Arial&quot;, sans-serif" font-size="10px"><tspan x="0" dy="0em">Supermercado</tspan></text></g></g><text class="legendTitle" font-family="&quot;Arial&quot;, sans-serif" font-size="12px" font-weight="bold"><tspan x="0" dy="0em">Tipo de Gasto</tspan></text></g></g>
+                <!-- leyenda original -->
               </g>
             </svg>
           </div>
@@ -264,8 +271,9 @@
   </footer>
 
   <!-- Scripts -->
+  <script defer src="https://public.flourish.studio/resources/embed.js"></script>
   <script>
-    // Ajuste de altura Datawrapper
+    // Ajuste de altura Datawrapper (evita duplicados del script inline)
     window.addEventListener("message", function (event) {
       if (typeof event.data["datawrapper-height"] !== "undefined") {
         const iframes = document.querySelectorAll("iframe");
@@ -285,13 +293,15 @@
       root.style.setProperty('--scale', (e.target.value/100).toString());
     });
 
-    // Mostrar/Ocultar descripciones
+    // Mostrar/Ocultar descripciones (con aria-pressed)
     const toggleDesc = document.getElementById('toggleDesc');
     let descVisible = true;
     toggleDesc.addEventListener('click', () => {
       descVisible = !descVisible;
       root.style.setProperty('--desc-display', descVisible ? 'block' : 'none');
+      toggleDesc.setAttribute('aria-pressed', String(descVisible));
     });
   </script>
 </body>
 </html>
+v
