@@ -1,143 +1,117 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Presentación de Gráficos</title>
-  <meta name="description" content="Presentación interactiva de visualizaciones (Flourish, Datawrapper, SVG y Power BI)." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
-  <style>
-    :root {
-      --bg: #0b1020;
-      --card: #12172a;
-      --text: #e8ecf3;
-      --muted: #aab3c5;
-      --accent: #50e3c2;
-      --radius: 18px;
-      --gap: 22px;
-      --shadow: 0 8px 30px rgba(0,0,0,.35);
-    }
-    * { box-sizing: border-box; }
-    html, body { height: 100%; }
-    body {
-      margin: 0;
-      font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background: radial-gradient(1200px 600px at 10% -10%, #172041 0%, #0b1020 55%) fixed;
-      color: var(--text);
-      line-height: 1.55;
-    }
-    header {
-      padding: 56px 20px 24px;
-      text-align: center;
-    }
-    .title {
-      font-size: clamp(28px, 3.5vw, 44px);
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      margin: 0 0 10px;
-    }
-    .subtitle {
-      margin: 0 auto;
-      max-width: 840px;
-      color: var(--muted);
-      font-size: clamp(14px, 1.6vw, 18px);
-    }
-    .wrap {
-      max-width: 1100px;
-      padding: 0 20px 80px;
-      margin: 0 auto;
-      display: grid;
-      gap: var(--gap);
-      grid-template-columns: 1fr;
-    }
-    .grid {
-      display: grid;
-      gap: var(--gap);
-      grid-template-columns: 1fr;
-    }
-    @media (min-width: 960px) {
-      .grid {
-        grid-template-columns: 1fr 1fr;
-      }
-    }
-    .card {
-      background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
-      border: 1px solid rgba(255,255,255,.08);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 16px;
-      overflow: hidden;
-    }
-    .card h2 {
-      font-size: 18px;
-      margin: 6px 6px 14px;
-      font-weight: 700;
-      letter-spacing: .2px;
-    }
-    .card p {
-      margin: 0 6px 12px;
-      color: var(--muted);
-      font-size: 14px;
-    }
-    /* Contenedores responsivos para iframes */
-    .embed {
-      position: relative;
-      width: 100%;
-      border-radius: calc(var(--radius) - 8px);
-      overflow: hidden;
-      background: #0f152b;
-      border: 1px solid rgba(255,255,255,.06);
-    }
-    .embed iframe {
-      width: 100%;
-      height: 100%;
-      display: block;
-      border: 0;
-    }
-    /* Aspect ratios */
-    .ratio-16x9 { padding-top: 56.25%; }
-    .ratio-3x2  { padding-top: 66.66%; }
-    .ratio-auto { padding-top: 0; }
-    .embed > .inner {
-      position: absolute; inset: 0;
-    }
-    /* El SVG incrustado ocupa todo el ancho */
-    .svg-wrap {
-      width: 100%;
-      overflow: auto;
-      background: #0f152b;
-      border: 1px solid rgba(255,255,255,.06);
-      border-radius: calc(var(--radius) - 8px);
-    }
-    footer {
-      color: var(--muted);
-      text-align: center;
-      padding: 28px 16px 56px;
-      font-size: 13px;
-    }
-    .badge {
-      display: inline-block;
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: rgba(80, 227, 194, 0.12);
-      color: var(--accent);
-      border: 1px solid rgba(80, 227, 194, 0.35);
-      font-weight: 600;
-      font-size: 12px;
-      letter-spacing: .3px;
-      margin-bottom: 10px;
-    }
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Presentación de Gráficos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #0b1020;
+    --card: #12172a;
+    --text: #e8ecf3;
+    --muted: #aab3c5;
+    --accent: #50e3c2;
+    --border: rgba(255,255,255,.08);
+    --radius: 18px;
+    --gap: 22px;
+    --shadow: 0 8px 30px rgba(0,0,0,.35);
+  }
+  [data-theme="light"] {
+    --bg: #f6f8fb;
+    --card: #ffffff;
+    --text: #0e1628;
+    --muted: #435067;
+    --border: rgba(0,0,0,.08);
+    --shadow: 0 8px 30px rgba(0,0,0,.08);
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    background: radial-gradient(1200px 600px at 10% -10%, #172041 0%, var(--bg) 55%) fixed;
+    color: var(--text);
+    line-height: 1.55;
+  }
+  header { padding: 56px 20px 24px; text-align: center; }
+  .title { font-size: clamp(28px, 3.5vw, 44px); font-weight: 800; letter-spacing: -0.02em; margin: 0 0 10px; }
+  .subtitle { margin: 0 auto; max-width: 840px; color: var(--muted); font-size: clamp(14px, 1.6vw, 18px); }
+  .wrap { max-width: 1100px; padding: 0 20px 80px; margin: 0 auto; display: grid; gap: var(--gap); }
+  .grid { display: grid; gap: var(--gap); grid-template-columns: 1fr; }
+  @media (min-width: 960px) { .grid { grid-template-columns: 1fr 1fr; } }
+  .card {
+    background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 16px;
+    overflow: hidden;
+  }
+  .card h2 { font-size: 18px; margin: 6px 6px 14px; font-weight: 700; letter-spacing: .2px; }
+  .card p { margin: 0 6px 12px; color: var(--muted); font-size: 14px; }
+  .embed { position: relative; width: 100%; border-radius: calc(var(--radius) - 8px); overflow: hidden; background: #0f152b; border: 1px solid var(--border); }
+  [data-theme="light"] .embed { background:#f0f3f8; }
+  .embed iframe { width: 100%; height: 100%; display: block; border: 0; }
+  .ratio-16x9{ padding-top:56.25%; } .ratio-3x2{ padding-top:66.66%; } .ratio-auto{ padding-top:0; }
+  .embed>.inner{ position:absolute; inset:0; }
+
+  /* SVG responsive + panel */
+  .svg-card { grid-column: 1/-1; }
+  .svg-toolbar {
+    display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 0 6px 12px;
+  }
+  .svg-toolbar .row { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+  .svg-toolbar input[type="search"]{
+    padding:10px 12px; border-radius:10px; border:1px solid var(--border); background:transparent; color:var(--text);
+    min-width: 220px;
+  }
+  .btn, .toggle {
+    padding: 9px 12px; border-radius: 10px; border:1px solid var(--border); background: transparent; color: var(--text);
+    cursor: pointer; font-weight: 600;
+  }
+  .btn:hover, .toggle:hover { outline: 2px solid rgba(80, 227, 194, .25); }
+  .legend { display:flex; flex-wrap:wrap; gap:8px; margin: 6px 6px 10px; }
+  .chip {
+    display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:999px; border:1px solid var(--border);
+    background: rgba(255,255,255,.03); font-size:13px; cursor:pointer; user-select:none;
+  }
+  .chip input { accent-color: var(--accent); width:16px; height:16px; }
+  .svg-wrap {
+    width: 100%;
+    overflow: auto;
+    background: transparent;
+    border-radius: calc(var(--radius) - 8px);
+    border: 1px solid var(--border);
+  }
+  .svg-wrap svg { width: 100%; height: auto; display:block; }
+  .svg-wrap svg [data-dim="true"] { opacity: .18; }
+  .svg-wrap svg path { transition: opacity .18s ease, stroke .12s ease, stroke-width .12s ease; cursor: pointer; }
+  .svg-wrap svg path:hover { stroke: #00000066; stroke-width: 1.5; }
+  [data-theme="light"] .svg-wrap svg path:hover { stroke:#00000022; }
+
+  /* Tooltip */
+  .tooltip {
+    position: fixed; pointer-events: none; padding:8px 10px; background: rgba(10,14,25,.9);
+    color:#fff; border:1px solid rgba(255,255,255,.15); border-radius:10px; font-size:12px; transform: translate(-50%, calc(-100% - 10px));
+    z-index: 10; display:none; white-space: nowrap;
+  }
+  [data-theme="light"] .tooltip { background: rgba(0,0,0,.75); }
+
+  /* Theme switch */
+  .theme-switch { margin-left:auto; }
+  .badge { display:inline-block; padding:6px 10px; border-radius:999px; background: rgba(80,227,194,.12); color:var(--accent); border:1px solid rgba(80,227,194,.35); font-weight:600; font-size:12px; letter-spacing:.3px; margin-bottom:10px; }
+  footer { color: var(--muted); text-align:center; padding: 28px 16px 56px; font-size:13px; }
+</style>
 </head>
-<body>
+<body data-theme="dark">
   <header>
     <div class="badge">Dashboard</div>
     <h1 class="title">Presentación de gráficos</h1>
     <p class="subtitle">
-      Compilado de visualizaciones interactivos con <strong>Flourish</strong>, <strong>Datawrapper</strong>, un
-      <strong>SVG</strong> personalizado y un reporte de <strong>Power BI</strong>. Todo en una sola página, listo para GitHub Pages.
+      Visualizaciones con <strong>Flourish</strong>, <strong>Datawrapper</strong>, un <strong>SVG</strong> interactivo y <strong>Power BI</strong>.
     </p>
   </header>
 
@@ -146,86 +120,76 @@
       <!-- Flourish -->
       <article class="card">
         <h2>Flourish – Jerarquía</h2>
-        <p>Explorá la estructura y proporciones navegando el gráfico embebido.</p>
-        <div class="embed ratio-3x2">
-          <div class="inner">
-            <div class="flourish-embed flourish-hierarchy" data-src="visualisation/25147256"></div>
-          </div>
-        </div>
+        <p>Explorá la estructura y proporciones.</p>
+        <div class="embed ratio-3x2"><div class="inner">
+          <div class="flourish-embed flourish-hierarchy" data-src="visualisation/25147256"></div>
+        </div></div>
       </article>
 
       <!-- Datawrapper -->
       <article class="card">
         <h2>Datawrapper – Gastos totales</h2>
-        <p>Bar chart con auto-resize para cualquier pantalla.</p>
-        <div class="embed ratio-auto" style="min-height:160px">
-          <div class="inner">
-            <iframe
-              title="Gastos totales"
-              aria-label="Bar Chart"
-              id="datawrapper-chart-Ad1jv"
-              src="https://datawrapper.dwcdn.net/Ad1jv/1/"
-              scrolling="no"
-              frameborder="0"
-              data-external="1">
-            </iframe>
-          </div>
-        </div>
+        <p>Bar chart con auto-resize.</p>
+        <div class="embed ratio-auto" style="min-height:160px"><div class="inner">
+          <iframe title="Gastos totales" aria-label="Bar Chart" id="datawrapper-chart-Ad1jv" src="https://datawrapper.dwcdn.net/Ad1jv/1/" scrolling="no" data-external="1"></iframe>
+        </div></div>
       </article>
 
-      <!-- SVG estático (el que compartiste) -->
-      <article class="card" style="grid-column: 1 / -1">
+      <!-- SVG interactivo -->
+      <article class="card svg-card">
         <h2>SVG – Distribución por medio y categoría</h2>
-        <p>Versión vectorial incrustada para máxima nitidez.</p>
-        <div class="svg-wrap">
-          <!-- SVG pegado tal cual: -->
-          <svg xmlns="http://www.w3.org/2000/svg" width="805" height="600" role="img" aria-label="Distribución">
-            <rect width="805" height="600" x="0" y="0" fill="#FFFFFF" id="background"/>
-            <!-- 👇👇👇 Tu SVG original completo (paths + labels) 👇👇👇 -->
-            <!-- Para mantener el ejemplo breve, podés pegar aquí el bloque <g id="viz"> y <g id="labels"> que compartiste -->
-            <!-- INICIO SVG ORIGINAL -->
-            <!-- ======= PEGAR AQUÍ EL CONTENIDO COMPLETO DE TU SVG ======= -->
-            <!-- FIN SVG ORIGINAL -->
-          </svg>
+        <div class="svg-toolbar">
+          <div class="row">
+            <input id="search" type="search" placeholder="Buscar (ej: Nafta, Débito, Ropa)"/>
+            <button class="btn" id="reset">Reset</button>
+            <label class="toggle"><input id="toggleLabels" type="checkbox" checked /> Mostrar etiquetas</label>
+            <label class="toggle theme-switch"><input id="toggleTheme" type="checkbox" /> Tema claro</label>
+          </div>
+          <div class="row" style="gap:16px">
+            <div><strong>Zoom:</strong></div>
+            <input id="zoom" type="range" min="50" max="200" value="100" />
+            <button class="btn" id="downloadPng">Descargar PNG</button>
+          </div>
         </div>
+
+        <!-- Leyendas -->
+        <div class="legend" id="legendMedios"></div>
+        <div class="legend" id="legendCategorias"></div>
+
+        <div class="svg-wrap" id="svgWrap">
+          <!-- PEGAR AQUÍ TU SVG COMPLETO (tal cual) -->
+          <!-- INICIO SVG -->
+          <!-- ======= PEGAR AQUÍ TU SVG COMPLETO ======= -->
+          <!-- FIN SVG -->
+        </div>
+        <div class="tooltip" id="tooltip"></div>
       </article>
 
       <!-- Power BI -->
-      <article class="card" style="grid-column: 1 / -1">
+      <article class="card" style="grid-column:1/-1">
         <h2>Power BI – Reporte interactivo</h2>
-        <p>Filtro y exploración dinámica (fullscreen disponible).</p>
-        <div class="embed ratio-16x9">
-          <div class="inner">
-            <iframe
-              title="Tp 1"
-              src="https://app.powerbi.com/view?r=eyJrIjoiMmZkNDI4NTktMmU2YS00ZjcxLTgyMDItNmQ0YTQzNTY1OGNkIiwidCI6ImExZjUwYTk3LTIxYzAtNDlhNy1hOWQ0LWYyNDRlYmI0MmRhNyIsImMiOjR9"
-              allowfullscreen="true">
-            </iframe>
-          </div>
-        </div>
+        <p>Exploración y filtros (pantalla completa).</p>
+        <div class="embed ratio-16x9"><div class="inner">
+          <iframe title="Tp 1" src="https://app.powerbi.com/view?r=eyJrIjoiMmZkNDI4NTktMmU2YS00ZjcxLTgyMDItNmQ0YTQzNTY1OGNkIiwidCI6ImExZjUwYTk3LTIxYzAtNDlhNy1hOWQ0LWYyNDRlYmI0MmRhNyIsImMiOjR9" allowfullscreen="true"></iframe>
+        </div></div>
       </article>
     </section>
   </main>
 
-  <footer>
-    Hecho con Flourish, Datawrapper y Power BI · Deploy en GitHub Pages
-  </footer>
+  <footer>Hecho con Flourish, Datawrapper y Power BI · Deploy en GitHub Pages</footer>
 
-  <!-- Scripts de proveedores -->
+  <!-- Proveedores -->
   <script src="https://public.flourish.studio/resources/embed.js" defer></script>
-
-  <!-- Auto-resize oficial de Datawrapper -->
+  <!-- Auto-resize Datawrapper -->
   <script>
-    (function () {
-      "use strict";
-      window.addEventListener("message", function (event) {
-        if (event.data["datawrapper-height"] !== undefined) {
+    (function(){ "use strict";
+      window.addEventListener("message", function(e){
+        if (e.data["datawrapper-height"] !== undefined) {
           var iframes = document.querySelectorAll("iframe");
-          for (var chartId in event.data["datawrapper-height"]) {
-            for (var i = 0; i < iframes.length; i++) {
-              if (iframes[i].contentWindow === event.source) {
-                var newHeight = event.data["datawrapper-height"][chartId] + "px";
-                iframes[i].style.height = newHeight;
+          for (var id in e.data["datawrapper-height"]) {
+            for (var i=0;i<iframes.length;i++){
+              if (iframes[i].contentWindow === e.source) {
+                iframes[i].style.height = e.data["datawrapper-height"][id] + "px";
               }
             }
           }
@@ -233,6 +197,231 @@
       });
     })();
   </script>
+
+  <!-- Interactividad del SVG -->
+  <script>
+    (function(){
+      // Configuración de nombres esperados en tus <title> del SVG
+      const MEDIOS = ["Efectivo","Tarjeta de Débito","Mercado Pago","Tarjeta de Crédito"];
+      const CATEGORIAS = ["Supermercado","Futbol","Fiestas","Nafta","Salidas a comer","Salida a comer","Ropa","Padel"];
+
+      const svgWrap = document.getElementById("svgWrap");
+      const tooltip = document.getElementById("tooltip");
+      const search = document.getElementById("search");
+      const resetBtn = document.getElementById("reset");
+      const zoom = document.getElementById("zoom");
+      const toggleLabels = document.getElementById("toggleLabels");
+      const toggleTheme = document.getElementById("toggleTheme");
+      const legendMedios = document.getElementById("legendMedios");
+      const legendCategorias = document.getElementById("legendCategorias");
+      const downloadBtn = document.getElementById("downloadPng");
+
+      // Asegurar viewBox para responsividad si no existe
+      function ensureViewBox(svg){
+        if (!svg.getAttribute("viewBox")){
+          const w = parseFloat(svg.getAttribute("width")) || 800;
+          const h = parseFloat(svg.getAttribute("height")) || 600;
+          svg.setAttribute("viewBox", `0 0 ${w} ${h}`);
+          svg.setAttribute("preserveAspectRatio","xMidYMid meet");
+          svg.removeAttribute("width");
+          svg.removeAttribute("height");
+        }
+      }
+
+      // Etiquetar paths por medio/categoría usando su <title>
+      function tagSlices(root){
+        const paths = root.querySelectorAll("svg path");
+        paths.forEach(p=>{
+          let titleEl = p.querySelector("title");
+          let t = titleEl ? titleEl.textContent.trim() : "";
+          if (!t) { return; }
+          if (MEDIOS.includes(t)) { p.dataset.medio = t; }
+          if (CATEGORIAS.includes(t)) { p.dataset.categoria = t; }
+          // Si es un número, lo marcamos como valor
+          if (/^\d+([\.,]\d+)?$/.test(t)) { p.dataset.valor = t; }
+        });
+      }
+
+      // Construir leyendas con checkboxes
+      function buildLegend(container, items, kind){
+        container.innerHTML = "";
+        items.forEach(name=>{
+          const id = `${kind}-${name.replace(/\s+/g,'_')}`;
+          const chip = document.createElement("label");
+          chip.className = "chip";
+          chip.innerHTML = `<input type="checkbox" id="${id}" checked /> ${name}`;
+          chip.querySelector("input").addEventListener("change", (e)=>{
+            const checked = e.target.checked;
+            const svg = svgWrap.querySelector("svg");
+            const selector = kind==="medio" ? `[data-medio="${name}"]` : `[data-categoria="${name}"]`;
+            const elems = svg.querySelectorAll(`path${selector}, text`);
+            elems.forEach(el=>{
+              // Sólo dim paths que matchean; labels se dimmean si contienen el texto
+              if (el.tagName.toLowerCase()==="path") {
+                const isTarget = el.getAttribute(`data-${kind}`) === name;
+                if (isTarget) el.dataset.dim = checked ? "false" : "true";
+              } else if (el.tagName.toLowerCase()==="text") {
+                const m = (el.textContent||"").toLowerCase().includes(name.toLowerCase());
+                if (m) el.style.opacity = checked ? "" : ".25";
+              }
+            });
+          });
+          container.appendChild(chip);
+        });
+      }
+
+      // Hover tooltip
+      function attachHover(svg){
+        const paths = svg.querySelectorAll("path");
+        paths.forEach(p=>{
+          p.addEventListener("mouseenter", (ev)=>{
+            const t = (p.querySelector("title")?.textContent || "").trim();
+            if (!t) return;
+            p.__oldStroke = p.style.stroke;
+            p.__oldWidth = p.style.strokeWidth;
+            p.style.stroke = "#00000066";
+            p.style.strokeWidth = "1.5px";
+            tooltip.style.display = "block";
+            tooltip.textContent = t;
+          });
+          p.addEventListener("mousemove", (ev)=>{
+            if (tooltip.style.display==="block") {
+              tooltip.style.left = ev.clientX + "px";
+              tooltip.style.top  = ev.clientY + "px";
+            }
+          });
+          p.addEventListener("mouseleave", ()=>{
+            tooltip.style.display = "none";
+            p.style.stroke = p.__oldStroke || "";
+            p.style.strokeWidth = p.__oldWidth || "";
+          });
+        });
+      }
+
+      // Búsqueda por texto (resalta coincidencias y atenúa lo demás)
+      function applySearch(q){
+        const svg = svgWrap.querySelector("svg");
+        if (!svg) return;
+        const paths = svg.querySelectorAll("path");
+        const texts = svg.querySelectorAll("text");
+        const norm = (s)=>s.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
+
+        if (!q){
+          paths.forEach(p=>p.dataset.dim="false");
+          texts.forEach(t=>t.style.opacity="");
+          return;
+        }
+        const needle = norm(q);
+        paths.forEach(p=>{
+          const t = (p.querySelector("title")?.textContent || "");
+          const hit = norm(t).includes(needle);
+          p.dataset.dim = hit ? "false" : "true";
+        });
+        texts.forEach(t=>{
+          const hit = norm(t.textContent||"").includes(needle);
+          t.style.opacity = hit ? "1" : ".2";
+        });
+      }
+
+      // Zoom (transform escala sobre el <g id="viz"> y <g id="labels"> si existen)
+      function applyZoom(val){
+        const svg = svgWrap.querySelector("svg");
+        if (!svg) return;
+        const scale = val/100;
+        const viz = svg.querySelector("#viz");
+        const labels = svg.querySelector("#labels");
+        const centerX = svg.viewBox.baseVal.width/2;
+        const centerY = svg.viewBox.baseVal.height/2;
+        const transform = `translate(${centerX},${centerY}) scale(${scale}) translate(${-centerX},${-centerY})`;
+        [viz, labels].forEach(g=>{ if(g) g.setAttribute("transform", transform); });
+      }
+
+      // Mostrar/ocultar etiquetas (grupo #labels)
+      function toggleLabelsVis(show){
+        const svg = svgWrap.querySelector("svg");
+        const labels = svg?.querySelector("#labels");
+        if (labels) labels.style.display = show ? "" : "none";
+      }
+
+      // Tema
+      toggleTheme.addEventListener("change", (e)=>{
+        document.body.setAttribute("data-theme", e.target.checked ? "light" : "dark");
+      });
+
+      // Reset
+      resetBtn.addEventListener("click", ()=>{
+        search.value = "";
+        applySearch("");
+        zoom.value = 100;
+        applyZoom(100);
+        // Tildar todos los checkboxes
+        [...legendMedios.querySelectorAll("input"), ...legendCategorias.querySelectorAll("input")].forEach(cb=>{
+          if (!cb.checked) { cb.click(); }
+        });
+        toggleLabels.checked = true; toggleLabelsVis(true);
+      });
+
+      // Inputs
+      search.addEventListener("input", (e)=> applySearch(e.target.value));
+      zoom.addEventListener("input", (e)=> applyZoom(+e.target.value));
+      toggleLabels.addEventListener("change", (e)=> toggleLabelsVis(e.target.checked));
+
+      // Descargar PNG (convierte el SVG inline a imagen)
+      downloadBtn.addEventListener("click", ()=>{
+        const svg = svgWrap.querySelector("svg");
+        if (!svg) return;
+        const xml = new XMLSerializer().serializeToString(svg);
+        const svg64 = btoa(unescape(encodeURIComponent(xml)));
+        const img = new Image();
+        img.onload = function(){
+          const w = svg.viewBox.baseVal.width || svg.getBoundingClientRect().width || 1200;
+          const h = svg.viewBox.baseVal.height || svg.getBoundingClientRect().height || 800;
+          const canvas = document.createElement("canvas");
+          canvas.width = w; canvas.height = h;
+          const ctx = canvas.getContext("2d");
+          // Fondo según tema
+          const themeLight = document.body.getAttribute("data-theme")==="light";
+          ctx.fillStyle = themeLight ? "#ffffff" : "#0b1020";
+          ctx.fillRect(0,0,w,h);
+          ctx.drawImage(img, 0,0, w, h);
+          const link = document.createElement("a");
+          link.download = "grafico.png";
+          link.href = canvas.toDataURL("image/png");
+          link.click();
+        };
+        img.src = "data:image/svg+xml;base64," + svg64;
+      });
+
+      // Inicialización una vez que el usuario pegó el SVG
+      function initSVG(){
+        const svg = svgWrap.querySelector("svg");
+        if (!svg) return;
+        ensureViewBox(svg);
+        tagSlices(document);
+        attachHover(svg);
+        applyZoom(+zoom.value);
+        toggleLabelsVis(toggleLabels.checked);
+
+        // Construir leyendas
+        buildLegend(legendMedios, MEDIOS, "medio");
+        buildLegend(legendCategorias, CATEGORIAS, "categoria");
+      }
+
+      // Si el SVG ya está en el DOM al cargar
+      const observer = new MutationObserver(()=> {
+        if (svgWrap.querySelector("svg")) {
+          initSVG(); observer.disconnect();
+        }
+      });
+      observer.observe(svgWrap, { childList: true, subtree: true });
+
+      // Por si ya estaba pegado
+      if (svgWrap.querySelector("svg")) initSVG();
+
+      // Tooltip ocultar si se scrollea
+      window.addEventListener("scroll", ()=> { tooltip.style.display="none"; }, {passive:true});
+    })();
+  </script>
 </body>
 </html>
-
+v
