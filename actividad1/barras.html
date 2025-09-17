@@ -1,191 +1,238 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Mis gastos – Nuevo tablero 2×2</title>
-  <meta name="description" content="Tablero responsive con 2 gráficos arriba y 2 abajo, estilo limpio y fondo claro." />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Presentación de Gráficos</title>
+  <meta name="description" content="Presentación interactiva de visualizaciones (Flourish, Datawrapper, SVG y Power BI)." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
   <style>
-    :root{
-      --bg: #fcfcfe;        /* fondo MUY claro */
-      --ink: #0f172a;       /* texto casi negro */
-      --sub: #475569;       /* texto secundario */
-      --card: #ffffff;      /* tarjetas */
-      --ring: #e6e8ef;      /* bordes sutiles */
-      --accent: #2563eb;    /* acento minimal */
-      --radius: 16px;
-      --shadow: 0 12px 30px rgba(2,6,23,.08);
-      --maxw: 1280px;
+    :root {
+      --bg: #0b1020;
+      --card: #12172a;
+      --text: #e8ecf3;
+      --muted: #aab3c5;
+      --accent: #50e3c2;
+      --radius: 18px;
+      --gap: 22px;
+      --shadow: 0 8px 30px rgba(0,0,0,.35);
     }
-    *{ box-sizing:border-box }
-    html,body{ height:100% }
-    body{
-      margin:0; background:var(--bg); color:var(--ink);
-      font: 16px/1.55 Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial;
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: radial-gradient(1200px 600px at 10% -10%, #172041 0%, #0b1020 55%) fixed;
+      color: var(--text);
+      line-height: 1.55;
     }
-
-    /* CABECERA nueva, minimal */
-    .hero{
-      max-width:var(--maxw); margin:24px auto 8px; padding:0 20px;
+    header {
+      padding: 56px 20px 24px;
+      text-align: center;
     }
-    .hero h1{ margin:0 0 6px; font-size: clamp(1.25rem, 2vw + .5rem, 2rem); letter-spacing:.2px }
-    .hero p{ margin:0; color:var(--sub) }
-
-    /* GRID 2×2 fijo en desktop, stack en mobile */
-    .container{ max-width:var(--maxw); margin:0 auto 48px; padding: 10px 20px; }
-    .grid{
-      display:grid; gap:18px;
-      grid-template-columns: 1fr; /* mobile */
+    .title {
+      font-size: clamp(28px, 3.5vw, 44px);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin: 0 0 10px;
     }
-    @media (min-width: 900px){
-      .grid{ grid-template-columns: repeat(2, 1fr); } /* 2×2 */
+    .subtitle {
+      margin: 0 auto;
+      max-width: 840px;
+      color: var(--muted);
+      font-size: clamp(14px, 1.6vw, 18px);
     }
-
-    /* Tarjetas nuevas con encabezado lateral */
-    .card{
-      display:flex; flex-direction:column; min-height:260px; background:var(--card);
-      border:1px solid var(--ring); border-radius:var(--radius); box-shadow:var(--shadow);
-      overflow:hidden; isolation:isolate;
+    .wrap {
+      max-width: 1100px;
+      padding: 0 20px 80px;
+      margin: 0 auto;
+      display: grid;
+      gap: var(--gap);
+      grid-template-columns: 1fr;
     }
-    .card .hd{
-      display:flex; align-items:center; gap:10px; padding:12px 14px; border-bottom:1px solid var(--ring);
-      background: linear-gradient(180deg, rgba(37,99,235,.05), transparent 80%);
+    .grid {
+      display: grid;
+      gap: var(--gap);
+      grid-template-columns: 1fr;
     }
-    .dot{ width:9px; height:9px; border-radius:999px; background:var(--accent); box-shadow:0 0 0 4px rgba(37,99,235,.12) }
-    .title{ font-weight:800; font-size:1rem }
-    .sub{ color:var(--sub); font-size:.9rem }
-
-    .card .bd{ position:relative; padding:0; }
-
-    /* Utilidades de relación de aspecto */
-    .ratio{ position:relative; width:100%; }
-    .ratio-16x9{ padding-top:56.25% }
-    .ratio-4x3{ padding-top:75% }
-    .ratio > iframe, .ratio > svg, .ratio > .flourish-embed > iframe{
-      position:absolute; inset:0; width:100%; height:100%; border:0; display:block;
+    @media (min-width: 960px) {
+      .grid {
+        grid-template-columns: 1fr 1fr;
+      }
     }
-
-    /* SVG espacioso */
-    .svg-pad{ padding:12px }
-    .svg-pad svg{ width:100%; height:auto; display:block }
-
-    /* Footer minimal */
-    footer{ max-width:var(--maxw); margin:8px auto 28px; padding:0 20px; color:var(--sub); font-size:.9rem }
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 16px;
+      overflow: hidden;
+    }
+    .card h2 {
+      font-size: 18px;
+      margin: 6px 6px 14px;
+      font-weight: 700;
+      letter-spacing: .2px;
+    }
+    .card p {
+      margin: 0 6px 12px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    /* Contenedores responsivos para iframes */
+    .embed {
+      position: relative;
+      width: 100%;
+      border-radius: calc(var(--radius) - 8px);
+      overflow: hidden;
+      background: #0f152b;
+      border: 1px solid rgba(255,255,255,.06);
+    }
+    .embed iframe {
+      width: 100%;
+      height: 100%;
+      display: block;
+      border: 0;
+    }
+    /* Aspect ratios */
+    .ratio-16x9 { padding-top: 56.25%; }
+    .ratio-3x2  { padding-top: 66.66%; }
+    .ratio-auto { padding-top: 0; }
+    .embed > .inner {
+      position: absolute; inset: 0;
+    }
+    /* El SVG incrustado ocupa todo el ancho */
+    .svg-wrap {
+      width: 100%;
+      overflow: auto;
+      background: #0f152b;
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: calc(var(--radius) - 8px);
+    }
+    footer {
+      color: var(--muted);
+      text-align: center;
+      padding: 28px 16px 56px;
+      font-size: 13px;
+    }
+    .badge {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(80, 227, 194, 0.12);
+      color: var(--accent);
+      border: 1px solid rgba(80, 227, 194, 0.35);
+      font-weight: 600;
+      font-size: 12px;
+      letter-spacing: .3px;
+      margin-bottom: 10px;
+    }
   </style>
 </head>
 <body>
-  <section class="hero">
-    <h1>Tablero de gastos personales</h1>
-    <p>Diseño renovado: <strong>dos gráficos arriba</strong> y <strong>dos abajo</strong>, alto contraste sobre fondo claro.</p>
-  </section>
+  <header>
+    <div class="badge">Dashboard</div>
+    <h1 class="title">Presentación de gráficos</h1>
+    <p class="subtitle">
+      Compilado de visualizaciones interactivos con <strong>Flourish</strong>, <strong>Datawrapper</strong>, un
+      <strong>SVG</strong> personalizado y un reporte de <strong>Power BI</strong>. Todo en una sola página, listo para GitHub Pages.
+    </p>
+  </header>
 
-  <main class="container">
-    <div class="grid" aria-label="Cuadrícula 2×2 de gráficos">
-
-      <!-- ARRIBA IZQ: FLOURISH -->
-      <article class="card" aria-labelledby="fl-title">
-        <div class="hd">
-          <span class="dot" aria-hidden="true"></span>
-          <div>
-            <div id="fl-title" class="title">Medios de pago y categorías</div>
-            <div class="sub">Flourish (jerarquía)</div>
-          </div>
-        </div>
-        <div class="bd">
-          <div class="ratio ratio-4x3">
+  <main class="wrap">
+    <section class="grid">
+      <!-- Flourish -->
+      <article class="card">
+        <h2>Flourish – Jerarquía</h2>
+        <p>Explorá la estructura y proporciones navegando el gráfico embebido.</p>
+        <div class="embed ratio-3x2">
+          <div class="inner">
             <div class="flourish-embed flourish-hierarchy" data-src="visualisation/25147256"></div>
           </div>
         </div>
       </article>
 
-      <!-- ARRIBA DER: DATAWRAPPER -->
-      <article class="card" aria-labelledby="dw-title">
-        <div class="hd">
-          <span class="dot" aria-hidden="true"></span>
-          <div>
-            <div id="dw-title" class="title">Gastos totales</div>
-            <div class="sub">Datawrapper (barras)</div>
-          </div>
-        </div>
-        <div class="bd">
-          <div class="ratio ratio-4x3">
+      <!-- Datawrapper -->
+      <article class="card">
+        <h2>Datawrapper – Gastos totales</h2>
+        <p>Bar chart con auto-resize para cualquier pantalla.</p>
+        <div class="embed ratio-auto" style="min-height:160px">
+          <div class="inner">
             <iframe
-              id="datawrapper-chart-Ad1jv"
               title="Gastos totales"
+              aria-label="Bar Chart"
+              id="datawrapper-chart-Ad1jv"
               src="https://datawrapper.dwcdn.net/Ad1jv/1/"
-              loading="lazy"
-              referrerpolicy="no-referrer-when-downgrade"></iframe>
+              scrolling="no"
+              frameborder="0"
+              data-external="1">
+            </iframe>
           </div>
         </div>
       </article>
 
-      <!-- ABAJO IZQ: SVG ESTÁTICO -->
-      <article class="card" aria-labelledby="svg-title">
-        <div class="hd">
-          <span class="dot" aria-hidden="true"></span>
-          <div>
-            <div id="svg-title" class="title">Distribución detallada</div>
-            <div class="sub">SVG estático (escalable)</div>
-          </div>
-        </div>
-        <div class="bd svg-pad">
-          <!-- Pega tu SVG completo; mantengo viewBox para que sea fluido -->
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 805 600" role="img" aria-label="Diagrama SVG de gastos">
-            <rect width="805" height="600" x="0" y="0" fill="#FFFFFF"/>
-            <!-- === CONTENIDO ORIGINAL DEL <g id="viz"> Y <g id="labels"> AQUÍ === -->
-            <!-- Para no duplicar miles de caracteres en edición, sustituí esto por tu bloque original completo -->
+      <!-- SVG estático (el que compartiste) -->
+      <article class="card" style="grid-column: 1 / -1">
+        <h2>SVG – Distribución por medio y categoría</h2>
+        <p>Versión vectorial incrustada para máxima nitidez.</p>
+        <div class="svg-wrap">
+          <!-- SVG pegado tal cual: -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="805" height="600" role="img" aria-label="Distribución">
+            <rect width="805" height="600" x="0" y="0" fill="#FFFFFF" id="background"/>
+            <!-- 👇👇👇 Tu SVG original completo (paths + labels) 👇👇👇 -->
+            <!-- Para mantener el ejemplo breve, podés pegar aquí el bloque <g id="viz"> y <g id="labels"> que compartiste -->
+            <!-- INICIO SVG ORIGINAL -->
+            <!-- ======= PEGAR AQUÍ EL CONTENIDO COMPLETO DE TU SVG ======= -->
+            <!-- FIN SVG ORIGINAL -->
           </svg>
         </div>
       </article>
 
-      <!-- ABAJO DER: POWER BI -->
-      <article class="card" aria-labelledby="pbi-title">
-        <div class="hd">
-          <span class="dot" aria-hidden="true"></span>
-          <div>
-            <div id="pbi-title" class="title">Reporte interactivo</div>
-            <div class="sub">Power BI (16:9)</div>
-          </div>
-        </div>
-        <div class="bd">
-          <div class="ratio ratio-16x9">
+      <!-- Power BI -->
+      <article class="card" style="grid-column: 1 / -1">
+        <h2>Power BI – Reporte interactivo</h2>
+        <p>Filtro y exploración dinámica (fullscreen disponible).</p>
+        <div class="embed ratio-16x9">
+          <div class="inner">
             <iframe
               title="Tp 1"
               src="https://app.powerbi.com/view?r=eyJrIjoiMmZkNDI4NTktMmU2YS00ZjcxLTgyMDItNmQ0YTQzNTY1OGNkIiwidCI6ImExZjUwYTk3LTIxYzAtNDlhNy1hOWQ0LWYyNDRlYmI0MmRhNyIsImMiOjR9"
-              allowfullscreen
-              loading="lazy"
-              referrerpolicy="no-referrer-when-downgrade"></iframe>
+              allowfullscreen="true">
+            </iframe>
           </div>
         </div>
       </article>
-
-    </div>
+    </section>
   </main>
 
   <footer>
-    Fondo claro · texto negro · diseño 2×2. <span id="fecha"></span>
+    Hecho con Flourish, Datawrapper y Power BI · Deploy en GitHub Pages
   </footer>
 
-  <!-- Librería de Flourish -->
+  <!-- Scripts de proveedores -->
   <script src="https://public.flourish.studio/resources/embed.js" defer></script>
+
   <!-- Auto-resize oficial de Datawrapper -->
   <script>
-    window.addEventListener("message", function(e){
-      if (typeof e.data["datawrapper-height"] !== "undefined"){
-        const iframes = document.querySelectorAll("iframe");
-        for (const id in e.data["datawrapper-height"]) {
-          for (let i=0; i<iframes.length; i++){
-            if (iframes[i].contentWindow === e.source){ iframes[i].style.height = e.data["datawrapper-height"][id] + "px"; }
+    (function () {
+      "use strict";
+      window.addEventListener("message", function (event) {
+        if (event.data["datawrapper-height"] !== undefined) {
+          var iframes = document.querySelectorAll("iframe");
+          for (var chartId in event.data["datawrapper-height"]) {
+            for (var i = 0; i < iframes.length; i++) {
+              if (iframes[i].contentWindow === event.source) {
+                var newHeight = event.data["datawrapper-height"][chartId] + "px";
+                iframes[i].style.height = newHeight;
+              }
+            }
           }
         }
-      }
-    });
-    // Fecha
-    (function(){
-      const el=document.getElementById('fecha');
-      if(!el) return; const d=new Date();
-      el.textContent = `· Última edición: ${d.toLocaleDateString('es-AR',{day:'2-digit',month:'short',year:'numeric'})}`;
+      });
     })();
   </script>
 </body>
 </html>
+
