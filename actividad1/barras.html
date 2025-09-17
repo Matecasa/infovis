@@ -2,187 +2,146 @@
 <html lang="es">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Presentación de Gráficos</title>
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>TP · Presentación de Gráficos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #0b1020;
-    --card: #12172a;
-    --text: #e8ecf3;
-    --muted: #aab3c5;
-    --accent: #50e3c2;
-    --border: rgba(255,255,255,.08);
-    --radius: 18px;
-    --gap: 22px;
-    --shadow: 0 8px 30px rgba(0,0,0,.35);
+  :root{
+    --bg:#f7f9fc; --card:#fff; --text:#0f172a; --muted:#475569; --border:#e5e7eb;
+    --accent:#4f46e5; --radius:16px; --gap:18px; --shadow:0 10px 28px rgba(15,23,42,.09);
   }
-  [data-theme="light"] {
-    --bg: #f6f8fb;
-    --card: #ffffff;
-    --text: #0e1628;
-    --muted: #435067;
-    --border: rgba(0,0,0,.08);
-    --shadow: 0 8px 30px rgba(0,0,0,.08);
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,Arial,sans-serif;line-height:1.55}
+  header{padding:36px 16px 8px;text-align:center}
+  h1{margin:0 0 6px;font-size:clamp(28px,4.5vw,44px);letter-spacing:-.02em}
+  p.lead{margin:0 auto 8px;max-width:900px;color:var(--muted)}
+  main{max-width:1200px;margin:18px auto 42px;padding:0 16px}
+  .grid{display:grid;gap:22px;grid-template-columns:1fr}
+  @media(min-width:990px){ .grid{grid-template-columns:repeat(2,1fr)} }
+  .card{
+    background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+    box-shadow:var(--shadow);padding:14px;display:flex;flex-direction:column;gap:10px;min-height:420px
   }
-  * { box-sizing: border-box; }
-  html, body { height: 100%; }
-  body {
-    margin: 0;
-    font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-    background: radial-gradient(1200px 600px at 10% -10%, #172041 0%, var(--bg) 55%) fixed;
-    color: var(--text);
-    line-height: 1.55;
+  .card h2{margin:4px 6px 0;font-size:18px}
+  .toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:0 6px}
+  .btn{
+    padding:9px 12px;border:1px solid var(--border);border-radius:10px;background:#fff;color:var(--text);
+    cursor:pointer;font-weight:600
   }
-  header { padding: 56px 20px 24px; text-align: center; }
-  .title { font-size: clamp(28px, 3.5vw, 44px); font-weight: 800; letter-spacing: -0.02em; margin: 0 0 10px; }
-  .subtitle { margin: 0 auto; max-width: 840px; color: var(--muted); font-size: clamp(14px, 1.6vw, 18px); }
-  .wrap { max-width: 1100px; padding: 0 20px 80px; margin: 0 auto; display: grid; gap: var(--gap); }
-  .grid { display: grid; gap: var(--gap); grid-template-columns: 1fr; }
-  @media (min-width: 960px) { .grid { grid-template-columns: 1fr 1fr; } }
-  .card {
-    background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    padding: 16px;
-    overflow: hidden;
-  }
-  .card h2 { font-size: 18px; margin: 6px 6px 14px; font-weight: 700; letter-spacing: .2px; }
-  .card p { margin: 0 6px 12px; color: var(--muted); font-size: 14px; }
-  .embed { position: relative; width: 100%; border-radius: calc(var(--radius) - 8px); overflow: hidden; background: #0f152b; border: 1px solid var(--border); }
-  [data-theme="light"] .embed { background:#f0f3f8; }
-  .embed iframe { width: 100%; height: 100%; display: block; border: 0; }
-  .ratio-16x9{ padding-top:56.25%; } .ratio-3x2{ padding-top:66.66%; } .ratio-auto{ padding-top:0; }
-  .embed>.inner{ position:absolute; inset:0; }
-
-  /* SVG responsive + panel */
-  .svg-card { grid-column: 1/-1; }
-  .svg-toolbar {
-    display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 0 6px 12px;
-  }
-  .svg-toolbar .row { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
-  .svg-toolbar input[type="search"]{
-    padding:10px 12px; border-radius:10px; border:1px solid var(--border); background:transparent; color:var(--text);
-    min-width: 220px;
-  }
-  .btn, .toggle {
-    padding: 9px 12px; border-radius: 10px; border:1px solid var(--border); background: transparent; color: var(--text);
-    cursor: pointer; font-weight: 600;
-  }
-  .btn:hover, .toggle:hover { outline: 2px solid rgba(80, 227, 194, .25); }
-  .legend { display:flex; flex-wrap:wrap; gap:8px; margin: 6px 6px 10px; }
-  .chip {
-    display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:999px; border:1px solid var(--border);
-    background: rgba(255,255,255,.03); font-size:13px; cursor:pointer; user-select:none;
-  }
-  .chip input { accent-color: var(--accent); width:16px; height:16px; }
-  .svg-wrap {
-    width: 100%;
-    overflow: auto;
-    background: transparent;
-    border-radius: calc(var(--radius) - 8px);
-    border: 1px solid var(--border);
-  }
-  .svg-wrap svg { width: 100%; height: auto; display:block; }
-  .svg-wrap svg [data-dim="true"] { opacity: .18; }
-  .svg-wrap svg path { transition: opacity .18s ease, stroke .12s ease, stroke-width .12s ease; cursor: pointer; }
-  .svg-wrap svg path:hover { stroke: #00000066; stroke-width: 1.5; }
-  [data-theme="light"] .svg-wrap svg path:hover { stroke:#00000022; }
-
-  /* Tooltip */
-  .tooltip {
-    position: fixed; pointer-events: none; padding:8px 10px; background: rgba(10,14,25,.9);
-    color:#fff; border:1px solid rgba(255,255,255,.15); border-radius:10px; font-size:12px; transform: translate(-50%, calc(-100% - 10px));
-    z-index: 10; display:none; white-space: nowrap;
-  }
-  [data-theme="light"] .tooltip { background: rgba(0,0,0,.75); }
-
-  /* Theme switch */
-  .theme-switch { margin-left:auto; }
-  .badge { display:inline-block; padding:6px 10px; border-radius:999px; background: rgba(80,227,194,.12); color:var(--accent); border:1px solid rgba(80,227,194,.35); font-weight:600; font-size:12px; letter-spacing:.3px; margin-bottom:10px; }
-  footer { color: var(--muted); text-align:center; padding: 28px 16px 56px; font-size:13px; }
+  .btn:hover{outline:2px solid #e0e7ff}
+  .embed{position:relative;border:1px solid var(--border);border-radius:12px;overflow:hidden;background:#fff;flex:1}
+  .embed .inner{position:absolute;inset:0}
+  .ratio-16x9{padding-top:56.25%}
+  .ratio-3x2{padding-top:66.66%}
+  .ratio-auto{padding-top:0;min-height:160px}
+  .embed iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
+  /* RAWGraphs */
+  .raw-stage{position:relative;overflow:auto}
+  .raw-holder{transform-origin:0 0}
+  .raw-holder svg{display:block;max-width:100%;height:auto}
+  .hint{color:var(--muted);font-size:13px;margin:6px 6px 0}
+  footer{color:var(--muted);text-align:center;padding:22px 16px 36px;font-size:13px}
 </style>
 </head>
-<body data-theme="dark">
+<body>
   <header>
-    <div class="badge">Dashboard</div>
-    <h1 class="title">Presentación de gráficos</h1>
-    <p class="subtitle">
-      Visualizaciones con <strong>Flourish</strong>, <strong>Datawrapper</strong>, un <strong>SVG</strong> interactivo y <strong>Power BI</strong>.
-    </p>
+    <h1>Trabajo Práctico · Presentación</h1>
+    <p class="lead">Todas las visualizaciones en una sola pantalla. Fondo claro para buena legibilidad.</p>
   </header>
 
-  <main class="wrap">
+  <main>
     <section class="grid">
       <!-- Flourish -->
-      <article class="card">
-        <h2>Flourish – Jerarquía</h2>
-        <p>Explorá la estructura y proporciones.</p>
+      <article class="card" id="card-flourish">
+        <h2>Flourish · Jerarquía</h2>
+        <div class="toolbar">
+          <button class="btn" data-fs="#card-flourish">Pantalla completa</button>
+          <a class="btn" href="https://public.flourish.studio/visualisation/25147256/" target="_blank" rel="noopener">Abrir en Flourish</a>
+        </div>
         <div class="embed ratio-3x2"><div class="inner">
           <div class="flourish-embed flourish-hierarchy" data-src="visualisation/25147256"></div>
         </div></div>
       </article>
 
+      <!-- RAWGraphs -->
+      <article class="card" id="card-raw">
+        <h2>RAWGraphs · Diagrama (SVG)</h2>
+        <div class="toolbar">
+          <button class="btn" data-fs="#card-raw">Pantalla completa</button>
+          <label class="btn">Zoom
+            <input id="rawZoom" type="range" min="50" max="200" value="100" style="vertical-align:middle;margin-left:6px">
+          </label>
+          <button class="btn" id="rawReset">Reset</button>
+          <button class="btn" id="rawPng">Descargar PNG</button>
+          <button class="btn" id="rawSvg">Descargar SVG</button>
+        </div>
+        <div class="embed raw-stage">
+          <div class="raw-holder" id="rawHolder">
+            <!-- ================== PEGÁ ACÁ TU SVG DE RAWGRAPHS ==================
+                 Reemplazá el <svg id="rawsvg"> completo por el exporte de RAWGraphs.
+                 Importante: dejá el atributo id="rawsvg" en la raíz del SVG. -->
+            <svg id="rawsvg" viewBox="0 0 600 360" xmlns="http://www.w3.org/2000/svg" aria-label="RAWGraphs">
+              <rect width="100%" height="100%" fill="#ffffff"/>
+              <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle"
+                    font-family="Inter, Arial, sans-serif" font-size="18" fill="#64748b">
+                Pegá tu SVG de RAWGraphs aquí (reemplazá este bloque)
+              </text>
+            </svg>
+            <!-- ================== FIN PEGAR SVG ================== -->
+          </div>
+        </div>
+        <p class="hint">Si el PNG no descarga, asegurate de que el SVG esté pegado en este archivo y conserve <code>id="rawsvg"</code>.</p>
+      </article>
+
       <!-- Datawrapper -->
-      <article class="card">
-        <h2>Datawrapper – Gastos totales</h2>
-        <p>Bar chart con auto-resize.</p>
-        <div class="embed ratio-auto" style="min-height:160px"><div class="inner">
-          <iframe title="Gastos totales" aria-label="Bar Chart" id="datawrapper-chart-Ad1jv" src="https://datawrapper.dwcdn.net/Ad1jv/1/" scrolling="no" data-external="1"></iframe>
+      <article class="card" id="card-dw">
+        <h2>Datawrapper · Gastos</h2>
+        <div class="toolbar">
+          <button class="btn" data-fs="#card-dw">Pantalla completa</button>
+        </div>
+        <div class="embed ratio-auto"><div class="inner">
+          <iframe title="Gastos totales" aria-label="Bar Chart" id="datawrapper-chart-Ad1jv"
+                  src="https://datawrapper.dwcdn.net/Ad1jv/1/" scrolling="no"></iframe>
         </div></div>
       </article>
 
-      <!-- SVG interactivo -->
-      <article class="card svg-card">
-        <h2>SVG – Distribución por medio y categoría</h2>
-        <div class="svg-toolbar">
-          <div class="row">
-            <input id="search" type="search" placeholder="Buscar (ej: Nafta, Débito, Ropa)"/>
-            <button class="btn" id="reset">Reset</button>
-            <label class="toggle"><input id="toggleLabels" type="checkbox" checked /> Mostrar etiquetas</label>
-            <label class="toggle theme-switch"><input id="toggleTheme" type="checkbox" /> Tema claro</label>
-          </div>
-          <div class="row" style="gap:16px">
-            <div><strong>Zoom:</strong></div>
-            <input id="zoom" type="range" min="50" max="200" value="100" />
-            <button class="btn" id="downloadPng">Descargar PNG</button>
-          </div>
-        </div>
-
-        <!-- Leyendas -->
-        <div class="legend" id="legendMedios"></div>
-        <div class="legend" id="legendCategorias"></div>
-
-        <div class="svg-wrap" id="svgWrap">
-          <!-- PEGAR AQUÍ TU SVG COMPLETO (tal cual) -->
-          <!-- INICIO SVG -->
-          <!-- ======= PEGAR AQUÍ TU SVG COMPLETO ======= -->
-          <!-- FIN SVG -->
-        </div>
-        <div class="tooltip" id="tooltip"></div>
-      </article>
-
       <!-- Power BI -->
-      <article class="card" style="grid-column:1/-1">
-        <h2>Power BI – Reporte interactivo</h2>
-        <p>Exploración y filtros (pantalla completa).</p>
+      <article class="card" id="card-pbi">
+        <h2>Power BI · Dashboard</h2>
+        <div class="toolbar">
+          <button class="btn" data-fs="#card-pbi">Pantalla completa</button>
+        </div>
         <div class="embed ratio-16x9"><div class="inner">
-          <iframe title="Tp 1" src="https://app.powerbi.com/view?r=eyJrIjoiMmZkNDI4NTktMmU2YS00ZjcxLTgyMDItNmQ0YTQzNTY1OGNkIiwidCI6ImExZjUwYTk3LTIxYzAtNDlhNy1hOWQ0LWYyNDRlYmI0MmRhNyIsImMiOjR9" allowfullscreen="true"></iframe>
+          <iframe title="TP"
+                  src="https://app.powerbi.com/view?r=eyJrIjoiMmZkNDI4NTktMmU2YS00ZjcxLTgyMDItNmQ0YTQzNTY1OGNkIiwidCI6ImExZjUwYTk3LTIxYzAtNDlhNy1hOWQ0LWYyNDRlYmI0MmRhNyIsImMiOjR9"
+                  allowfullscreen></iframe>
         </div></div>
       </article>
     </section>
   </main>
 
-  <footer>Hecho con Flourish, Datawrapper y Power BI · Deploy en GitHub Pages</footer>
+  <footer>© 2025 • InfoVis • GitHub Pages</footer>
 
-  <!-- Proveedores -->
+  <!-- Scripts de proveedores -->
   <script src="https://public.flourish.studio/resources/embed.js" defer></script>
-  <!-- Auto-resize Datawrapper -->
+
+  <!-- Funciones comunes: fullscreen por tarjeta -->
   <script>
-    (function(){ "use strict";
+    document.querySelectorAll('[data-fs]').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        const sel = btn.getAttribute('data-fs');
+        const el = document.querySelector(sel);
+        if (el && el.requestFullscreen) el.requestFullscreen();
+      });
+    });
+  </script>
+
+  <!-- Auto-resize oficial de Datawrapper -->
+  <script>
+    (function(){
+      "use strict";
       window.addEventListener("message", function(e){
         if (e.data["datawrapper-height"] !== undefined) {
           var iframes = document.querySelectorAll("iframe");
@@ -198,230 +157,59 @@
     })();
   </script>
 
-  <!-- Interactividad del SVG -->
+  <!-- Interacción RAWGraphs: zoom + exportar -->
   <script>
     (function(){
-      // Configuración de nombres esperados en tus <title> del SVG
-      const MEDIOS = ["Efectivo","Tarjeta de Débito","Mercado Pago","Tarjeta de Crédito"];
-      const CATEGORIAS = ["Supermercado","Futbol","Fiestas","Nafta","Salidas a comer","Salida a comer","Ropa","Padel"];
+      const holder = document.getElementById('rawHolder');
+      const zoom   = document.getElementById('rawZoom');
+      const reset  = document.getElementById('rawReset');
+      const btnPNG = document.getElementById('rawPng');
+      const btnSVG = document.getElementById('rawSvg');
 
-      const svgWrap = document.getElementById("svgWrap");
-      const tooltip = document.getElementById("tooltip");
-      const search = document.getElementById("search");
-      const resetBtn = document.getElementById("reset");
-      const zoom = document.getElementById("zoom");
-      const toggleLabels = document.getElementById("toggleLabels");
-      const toggleTheme = document.getElementById("toggleTheme");
-      const legendMedios = document.getElementById("legendMedios");
-      const legendCategorias = document.getElementById("legendCategorias");
-      const downloadBtn = document.getElementById("downloadPng");
+      const applyZoom = v => holder.style.transform = `scale(${v/100})`;
+      applyZoom(+zoom.value);
+      zoom.addEventListener('input', e=> applyZoom(+e.target.value));
+      reset.addEventListener('click', ()=> { zoom.value=100; applyZoom(100); });
 
-      // Asegurar viewBox para responsividad si no existe
-      function ensureViewBox(svg){
-        if (!svg.getAttribute("viewBox")){
-          const w = parseFloat(svg.getAttribute("width")) || 800;
-          const h = parseFloat(svg.getAttribute("height")) || 600;
-          svg.setAttribute("viewBox", `0 0 ${w} ${h}`);
-          svg.setAttribute("preserveAspectRatio","xMidYMid meet");
-          svg.removeAttribute("width");
-          svg.removeAttribute("height");
-        }
-      }
-
-      // Etiquetar paths por medio/categoría usando su <title>
-      function tagSlices(root){
-        const paths = root.querySelectorAll("svg path");
-        paths.forEach(p=>{
-          let titleEl = p.querySelector("title");
-          let t = titleEl ? titleEl.textContent.trim() : "";
-          if (!t) { return; }
-          if (MEDIOS.includes(t)) { p.dataset.medio = t; }
-          if (CATEGORIAS.includes(t)) { p.dataset.categoria = t; }
-          // Si es un número, lo marcamos como valor
-          if (/^\d+([\.,]\d+)?$/.test(t)) { p.dataset.valor = t; }
-        });
-      }
-
-      // Construir leyendas con checkboxes
-      function buildLegend(container, items, kind){
-        container.innerHTML = "";
-        items.forEach(name=>{
-          const id = `${kind}-${name.replace(/\s+/g,'_')}`;
-          const chip = document.createElement("label");
-          chip.className = "chip";
-          chip.innerHTML = `<input type="checkbox" id="${id}" checked /> ${name}`;
-          chip.querySelector("input").addEventListener("change", (e)=>{
-            const checked = e.target.checked;
-            const svg = svgWrap.querySelector("svg");
-            const selector = kind==="medio" ? `[data-medio="${name}"]` : `[data-categoria="${name}"]`;
-            const elems = svg.querySelectorAll(`path${selector}, text`);
-            elems.forEach(el=>{
-              // Sólo dim paths que matchean; labels se dimmean si contienen el texto
-              if (el.tagName.toLowerCase()==="path") {
-                const isTarget = el.getAttribute(`data-${kind}`) === name;
-                if (isTarget) el.dataset.dim = checked ? "false" : "true";
-              } else if (el.tagName.toLowerCase()==="text") {
-                const m = (el.textContent||"").toLowerCase().includes(name.toLowerCase());
-                if (m) el.style.opacity = checked ? "" : ".25";
-              }
-            });
-          });
-          container.appendChild(chip);
-        });
-      }
-
-      // Hover tooltip
-      function attachHover(svg){
-        const paths = svg.querySelectorAll("path");
-        paths.forEach(p=>{
-          p.addEventListener("mouseenter", (ev)=>{
-            const t = (p.querySelector("title")?.textContent || "").trim();
-            if (!t) return;
-            p.__oldStroke = p.style.stroke;
-            p.__oldWidth = p.style.strokeWidth;
-            p.style.stroke = "#00000066";
-            p.style.strokeWidth = "1.5px";
-            tooltip.style.display = "block";
-            tooltip.textContent = t;
-          });
-          p.addEventListener("mousemove", (ev)=>{
-            if (tooltip.style.display==="block") {
-              tooltip.style.left = ev.clientX + "px";
-              tooltip.style.top  = ev.clientY + "px";
-            }
-          });
-          p.addEventListener("mouseleave", ()=>{
-            tooltip.style.display = "none";
-            p.style.stroke = p.__oldStroke || "";
-            p.style.strokeWidth = p.__oldWidth || "";
-          });
-        });
-      }
-
-      // Búsqueda por texto (resalta coincidencias y atenúa lo demás)
-      function applySearch(q){
-        const svg = svgWrap.querySelector("svg");
-        if (!svg) return;
-        const paths = svg.querySelectorAll("path");
-        const texts = svg.querySelectorAll("text");
-        const norm = (s)=>s.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
-
-        if (!q){
-          paths.forEach(p=>p.dataset.dim="false");
-          texts.forEach(t=>t.style.opacity="");
-          return;
-        }
-        const needle = norm(q);
-        paths.forEach(p=>{
-          const t = (p.querySelector("title")?.textContent || "");
-          const hit = norm(t).includes(needle);
-          p.dataset.dim = hit ? "false" : "true";
-        });
-        texts.forEach(t=>{
-          const hit = norm(t.textContent||"").includes(needle);
-          t.style.opacity = hit ? "1" : ".2";
-        });
-      }
-
-      // Zoom (transform escala sobre el <g id="viz"> y <g id="labels"> si existen)
-      function applyZoom(val){
-        const svg = svgWrap.querySelector("svg");
-        if (!svg) return;
-        const scale = val/100;
-        const viz = svg.querySelector("#viz");
-        const labels = svg.querySelector("#labels");
-        const centerX = svg.viewBox.baseVal.width/2;
-        const centerY = svg.viewBox.baseVal.height/2;
-        const transform = `translate(${centerX},${centerY}) scale(${scale}) translate(${-centerX},${-centerY})`;
-        [viz, labels].forEach(g=>{ if(g) g.setAttribute("transform", transform); });
-      }
-
-      // Mostrar/ocultar etiquetas (grupo #labels)
-      function toggleLabelsVis(show){
-        const svg = svgWrap.querySelector("svg");
-        const labels = svg?.querySelector("#labels");
-        if (labels) labels.style.display = show ? "" : "none";
-      }
-
-      // Tema
-      toggleTheme.addEventListener("change", (e)=>{
-        document.body.setAttribute("data-theme", e.target.checked ? "light" : "dark");
-      });
-
-      // Reset
-      resetBtn.addEventListener("click", ()=>{
-        search.value = "";
-        applySearch("");
-        zoom.value = 100;
-        applyZoom(100);
-        // Tildar todos los checkboxes
-        [...legendMedios.querySelectorAll("input"), ...legendCategorias.querySelectorAll("input")].forEach(cb=>{
-          if (!cb.checked) { cb.click(); }
-        });
-        toggleLabels.checked = true; toggleLabelsVis(true);
-      });
-
-      // Inputs
-      search.addEventListener("input", (e)=> applySearch(e.target.value));
-      zoom.addEventListener("input", (e)=> applyZoom(+e.target.value));
-      toggleLabels.addEventListener("change", (e)=> toggleLabelsVis(e.target.checked));
-
-      // Descargar PNG (convierte el SVG inline a imagen)
-      downloadBtn.addEventListener("click", ()=>{
-        const svg = svgWrap.querySelector("svg");
-        if (!svg) return;
+      // Descargar SVG (toma el SVG inline)
+      btnSVG.addEventListener('click', ()=>{
+        const svg = document.getElementById('rawsvg');
+        if (!svg) { alert('Pegá tu SVG (id="rawsvg")'); return; }
         const xml = new XMLSerializer().serializeToString(svg);
-        const svg64 = btoa(unescape(encodeURIComponent(xml)));
+        const blob = new Blob([xml], {type:"image/svg+xml;charset=utf-8"});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url; a.download = 'rawgraphs.svg'; a.click();
+        URL.revokeObjectURL(url);
+      });
+
+      // Descargar PNG (convierte el SVG inline a raster)
+      btnPNG.addEventListener('click', ()=>{
+        const svg = document.getElementById('rawsvg');
+        if (!svg) { alert('Pegá tu SVG (id="rawsvg")'); return; }
+        const xml = new XMLSerializer().serializeToString(svg);
+        const svg64 = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(xml);
         const img = new Image();
         img.onload = function(){
-          const w = svg.viewBox.baseVal.width || svg.getBoundingClientRect().width || 1200;
-          const h = svg.viewBox.baseVal.height || svg.getBoundingClientRect().height || 800;
-          const canvas = document.createElement("canvas");
+          // Usa viewBox si existe, sino calculo aproximado
+          const vb = svg.getAttribute('viewBox');
+          let w = 1600, h = 900;
+          if (vb) { const p = vb.split(/\s+/).map(Number); w = p[2]||w; h = p[3]||h; }
+          const canvas = document.createElement('canvas');
           canvas.width = w; canvas.height = h;
-          const ctx = canvas.getContext("2d");
-          // Fondo según tema
-          const themeLight = document.body.getAttribute("data-theme")==="light";
-          ctx.fillStyle = themeLight ? "#ffffff" : "#0b1020";
-          ctx.fillRect(0,0,w,h);
-          ctx.drawImage(img, 0,0, w, h);
-          const link = document.createElement("a");
-          link.download = "grafico.png";
-          link.href = canvas.toDataURL("image/png");
-          link.click();
+          const ctx = canvas.getContext('2d');
+          ctx.fillStyle = '#ffffff'; ctx.fillRect(0,0,w,h);
+          ctx.drawImage(img, 0, 0, w, h);
+          const a = document.createElement('a');
+          a.download = 'rawgraphs.png';
+          a.href = canvas.toDataURL('image/png');
+          a.click();
         };
-        img.src = "data:image/svg+xml;base64," + svg64;
+        img.onerror = ()=> alert('No se pudo convertir el SVG. Verificá que esté pegado correctamente.');
+        img.src = svg64;
       });
-
-      // Inicialización una vez que el usuario pegó el SVG
-      function initSVG(){
-        const svg = svgWrap.querySelector("svg");
-        if (!svg) return;
-        ensureViewBox(svg);
-        tagSlices(document);
-        attachHover(svg);
-        applyZoom(+zoom.value);
-        toggleLabelsVis(toggleLabels.checked);
-
-        // Construir leyendas
-        buildLegend(legendMedios, MEDIOS, "medio");
-        buildLegend(legendCategorias, CATEGORIAS, "categoria");
-      }
-
-      // Si el SVG ya está en el DOM al cargar
-      const observer = new MutationObserver(()=> {
-        if (svgWrap.querySelector("svg")) {
-          initSVG(); observer.disconnect();
-        }
-      });
-      observer.observe(svgWrap, { childList: true, subtree: true });
-
-      // Por si ya estaba pegado
-      if (svgWrap.querySelector("svg")) initSVG();
-
-      // Tooltip ocultar si se scrollea
-      window.addEventListener("scroll", ()=> { tooltip.style.display="none"; }, {passive:true});
     })();
   </script>
 </body>
 </html>
-v
+
